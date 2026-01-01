@@ -17,17 +17,13 @@ def read_uploaded_file(uploaded_file) -> str:
 
 
 def main():
-    st.set_page_config(page_title="LLM Code Reviewer", layout="wide")
-    st.title("Claude-Powered Code Reviewer")
+    st.set_page_config(page_title="AI Code Reviewer", layout="wide")
+    st.title("AI Code Review")
     st.write(
-        "Paste code or upload a single file below, then let Claude 3.5 Sonnet produce a focused review. "
-        "Nothing is stored on the server beyond the single request."
+        "Paste code or upload a single file below. "
+        "An AI will scan your code and generate a review for code accuracy, quality, vulnerabilities, and best practices."
     )
 
-    with st.sidebar:
-        st.header("Review Settings")
-        language = st.text_input("Language hint (optional)")
-        notes = st.text_area("Additional context for Claude (optional)", height=120)
 
     uploaded_file = st.file_uploader("Upload a code file", type=None)
     pasted_code = st.text_area("Or paste code directly", height=320, placeholder="def hello_world():\n    print('Hello!')\n")
@@ -44,11 +40,11 @@ def main():
     with col1:
         submit_clicked = st.button("Review", use_container_width=True)
     with col2:
-        st.caption("Claude responses usually take a few seconds. Larger files can take longer due to token limits.")
+        st.caption("This usually takes a couple seconds.")
 
     if submit_clicked:
         if not source_code.strip():
-            st.warning("Please upload a file or paste code before requesting a review.")
+            st.warning("Please upload a file or paste a code text.")
             return
 
         try:
@@ -57,13 +53,11 @@ def main():
             st.error(str(exc))
             return
 
-        with st.spinner("Requesting review from Claude 3.5 Sonnet..."):
+        with st.spinner("Generating Review..."):
             try:
                 review_markdown, metadata = reviewer.review(
                     source_code,
                     filename=filename,
-                    language=language,
-                    notes=notes,
                 )
             except Exception as exc:  # noqa: BLE001 - show any failure to the user
                 st.error(f"Review failed: {exc}")
