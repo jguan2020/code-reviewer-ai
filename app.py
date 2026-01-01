@@ -72,9 +72,6 @@ def main():
         st.success("Review complete")
         st.markdown(review_markdown)
 
-        st.caption(
-            f"Model `{metadata.model}` • Input tokens: {metadata.input_tokens} • Output tokens: {metadata.output_tokens}"
-        )
 
 
 if __name__ == "__main__":

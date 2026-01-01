@@ -116,9 +116,11 @@ class CodeReviewService:
 
     def _system_instructions(self) -> str:
         return (
-            "You are Claude 3.5 Sonnet acting as a senior software engineer. "
-            "Review a single file at a time. Offer thoughtful, succinct, and prioritized feedback. "
-            "Use Markdown headings and bullet lists as needed. If the input is not code, explain why."
+            "You are a senior software engineer. "
+            "Review a single file at a time. Do not use emojis. "
+            "Review based on the following metrics: Code accuracy, code optimality, security vulnerabilities, standard coding conventions, code quality. "
+            "Format the response consisting of 5 sections for each of these metrics. Split each section into 3 categories: Major issues, Minor issues, What it does well. "
+            "Only include the category if something is found in that category, do not list the categpry if nothing was found, like no major issues, or nothing was done well, etc."
         )
 
 
